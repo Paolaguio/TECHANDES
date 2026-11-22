@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión - TechAndes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+    <div class="login-marco">
+        <header class="banner">
+            <img src="{{ url_for('static', filename='img/banner.svg') }}" alt="TechAndes S.A.S.">
+        </header>
+        <form method="post" class="login-cuerpo">
+            <h1>Portal de ventas</h1>
+            {% with mensajes = get_flashed_messages(with_categories=true) %}
+                {% for categoria, mensaje in mensajes %}
+                    <div class="mensaje {{ categoria }}">{{ mensaje }}</div>
+                {% endfor %}
+            {% endwith %}
+            <label>Usuario
+                <input name="usuario" autocomplete="username" required autofocus value="{{ request.form.usuario or '' }}">
+            </label>
+            <label>Contraseña
+                <input name="clave" type="password" autocomplete="current-password" required>
+            </label>
+            <button class="boton" type="submit">Ingresar</button>
+        </form>
+    </div>
+</body>
+</html>

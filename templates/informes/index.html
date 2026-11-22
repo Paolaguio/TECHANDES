@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block titulo %}Informes{% endblock %}
+{% block contenido %}
+    <h1>Informes comerciales</h1>
+    <p class="subtitulo">Reportes gerenciales (excluye pedidos cancelados). Total efectivo: <strong>{{ gran_total | pesos }}</strong></p>
+
+    <h3>1. Ventas por categoría</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Categoría</th>
+                <th class="num">Unidades</th>
+                <th class="num">Total vendido</th>
+                <th class="num">%</th>
+                <th style="width:220px;">Participación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for f in por_categoria %}
+                <tr>
+                    <td>{{ f.categoria }}</td>
+                    <td class="num">{{ f.unidades }}</td>
+                    <td class="num">{{ f.total | pesos }}</td>
+                    <td class="num">{{ f.porcentaje }}%</td>
+                    <td>
+                        <div style="background:#e2e8f0; border-radius:6px; height:12px; overflow:hidden;">
+                            <div style="background:var(--azul); height:100%; width:{{ f.porcentaje }}%;"></div>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5" class="vacio">Sin datos de ventas por categoría.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>2. Ranking de vendedores</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Puesto</th>
+                <th>Vendedor</th>
+                <th>Cargo</th>
+                <th class="num">Pedidos</th>
+                <th class="num">Total vendido</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in ranking_vendedores %}
+                <tr>
+                    <td><strong>#{{ v.puesto }}</strong></td>
+                    <td>{{ v.vendedor }}</td>
+                    <td>{{ v.cargo }}</td>
+                    <td class="num">{{ v.pedidos }}</td>
+                    <td class="num">{{ v.total | pesos }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5" class="vacio">Sin datos de vendedores.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>3. Top 5 productos más vendidos</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th class="num">Unidades</th>
+                <th class="num">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in top_productos %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ p.producto }}</td>
+                    <td>{{ p.categoria }}</td>
+                    <td class="num">{{ p.unidades }}</td>
+                    <td class="num">{{ p.total | pesos }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5" class="vacio">No hay productos vendidos aún.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>4. Clientes sin compras registradas ({{ clientes_sin_compras | length }})</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Documento</th>
+                <th>Cliente</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Ciudad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in clientes_sin_compras %}
+                <tr>
+                    <td>{{ c.documento }}</td>
+                    <td><a href="{{ url_for('clientes.detalle', id_cliente=c.id_cliente) }}">{{ c.cliente }}</a></td>
+                    <td>{{ c.correo }}</td>
+                    <td>{{ c.telefono or '—' }}</td>
+                    <td>{{ c.ciudad }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5" class="vacio">Todos los clientes tienen al menos una compra.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

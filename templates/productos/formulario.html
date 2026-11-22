@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block titulo %}{{ titulo }}{% endblock %}
+{% block contenido %}
+    <h1>{{ titulo }}</h1>
+
+    <form method="post" style="max-width:520px; display:flex; flex-direction:column; gap:14px;">
+        <label>Nombre
+            <input type="text" name="nombre" maxlength="100" required value="{{ datos.nombre }}">
+        </label>
+
+        <label>Categoría
+            <select name="id_categoria" required>
+                <option value="">Seleccione...</option>
+                {% for c in categorias %}
+                    <option value="{{ c.id_categoria }}" {{ 'selected' if c.id_categoria | string == datos.id_categoria | string }}>
+                        {{ c.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label>Precio
+            <input type="number" name="precio" step="any" min="1" required value="{{ datos.precio }}">
+        </label>
+
+        <label>Stock
+            <input type="number" name="stock" min="0" required value="{{ datos.stock }}">
+        </label>
+
+        <label style="flex-direction:row; align-items:center; gap:8px;">
+            <input type="checkbox" name="activo" value="1" {{ 'checked' if datos.activo }}>
+            Activo en el catálogo
+        </label>
+
+        <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="boton" type="submit">Guardar</button>
+            <a class="boton secundario" href="{{ url_for('productos.lista') }}">Cancelar</a>
+        </div>
+    </form>
+{% endblock %}

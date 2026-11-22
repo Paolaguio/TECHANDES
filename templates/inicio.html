@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block titulo %}Inicio{% endblock %}
+{% block contenido %}
+    <h1>Panel principal</h1>
+    <p class="subtitulo">Resumen de la operación comercial de TechAndes.</p>
+
+    <div class="indicadores">
+        <div class="indicador">
+            <span>Ventas efectivas</span>
+            <strong>{{ indicadores.ventas_totales | pesos }}</strong>
+        </div>
+        <div class="indicador">
+            <span>Pedidos pendientes</span>
+            <strong>{{ indicadores.pendientes }}</strong>
+        </div>
+        <div class="indicador">
+            <span>Clientes registrados</span>
+            <strong>{{ indicadores.clientes }}</strong>
+        </div>
+        <div class="indicador alerta">
+            <span>Productos con stock bajo</span>
+            <strong>{{ indicadores.stock_bajo }}</strong>
+        </div>
+    </div>
+
+    <div class="indicadores">
+        <div class="indicador">
+            <span>Mis ventas (pedidos)</span>
+            <strong>{{ mis_ventas.pedidos }}</strong>
+        </div>
+        <div class="indicador">
+            <span>Mis ventas (total)</span>
+            <strong>{{ mis_ventas.total | pesos }}</strong>
+        </div>
+    </div>
+
+    <h3>Últimos pedidos</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th class="num">Total</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in ultimos %}
+                <tr>
+                    <td><a href="{{ url_for('pedidos.detalle', id_pedido=p.id_pedido) }}">{{ p.id_pedido }}</a></td>
+                    <td>{{ p.fecha_pedido | fecha }}</td>
+                    <td>{{ p.cliente }}</td>
+                    <td class="num">{{ p.total | pesos }}</td>
+                    <td><span class="estado {{ p.estado }}">{{ p.estado }}</span></td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5" class="vacio">No hay pedidos registrados.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Productos por reabastecer (menos de 10 unidades)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th class="num">Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prod in bajo_stock %}
+                <tr>
+                    <td>{{ prod.nombre }}</td>
+                    <td class="num">{{ prod.stock }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="2" class="vacio">Todos los productos tienen buen inventario.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

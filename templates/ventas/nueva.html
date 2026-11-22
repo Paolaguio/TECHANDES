@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block titulo %}Nueva venta{% endblock %}
+{% block contenido %}
+    <h1>Nueva venta</h1>
+    <p class="subtitulo">Asesor asignado: <strong>{{ session.usuario.nombre }}</strong></p>
+
+    <form method="post" style="max-width:760px; display:flex; flex-direction:column; gap:16px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px;">
+            <label>Cliente
+                <select name="id_cliente" required>
+                    <option value="">Seleccione un cliente...</option>
+                    {% for c in clientes %}
+                        <option value="{{ c.id_cliente }}" {{ 'selected' if c.id_cliente | string == id_cliente_sel }}>
+                            {{ c.nombre }} ({{ c.documento }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>Método de pago
+                <select name="metodo_pago" required>
+                    {% for m in metodos_pago %}
+                        <option value="{{ m }}" {{ 'selected' if m == metodo_pago_sel }}>{{ m }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        </div>
+
+        <h3>Detalle de productos (hasta {{ num_filas }} líneas)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Línea</th>
+                    <th>Producto</th>
+                    <th style="width:140px;">Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(1, num_filas + 1) %}
+                    {% set prod_val = request.form.get('producto_' ~ i, '') %}
+                    {% set cant_val = request.form.get('cantidad_' ~ i, '') %}
+                    <tr>
+                        <td>#{{ i }}</td>
+                        <td>
+                            <select name="producto_{{ i }}">
+                                <option value="">-- Seleccione --</option>
+                                {% for p in productos %}
+                                    <option value="{{ p.id_producto }}" {{ 'selected' if p.id_producto | string == prod_val }}>
+                                        {{ p.nombre }} — {{ p.precio | pesos }} (Stock: {{ p.stock }})
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" name="cantidad_{{ i }}" min="1" value="{{ cant_val }}" placeholder="0">
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div style="display:flex; gap:10px;">
+            <button class="boton" type="submit">Registrar venta</button>
+            <a class="boton secundario" href="{{ url_for('inicio.inicio') }}">Cancelar</a>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block titulo %}{{ titulo }}{% endblock %}
+{% block contenido %}
+    <h1>{{ titulo }}</h1>
+
+    <form method="post" style="max-width:520px; display:flex; flex-direction:column; gap:14px;">
+        <label>Documento
+            <input type="text" name="documento" required value="{{ datos.documento }}">
+        </label>
+
+        <label>Nombres
+            <input type="text" name="nombres" required value="{{ datos.nombre }}">
+        </label>
+
+        <label>Apellidos
+            <input type="text" name="apellidos" required value="{{ datos.apellido }}">
+        </label>
+
+        <label>Correo electrónico
+            <input type="email" name="correo" required value="{{ datos.correo }}">
+        </label>
+
+        <label>Teléfono
+            <input type="text" name="telefono" value="{{ datos.telefono }}">
+        </label>
+
+        <label>Ciudad
+            <select name="ciudad" required>
+                <option value="">Seleccione...</option>
+                {% for c in ciudades %}
+                    <option value="{{ c }}" {{ 'selected' if c == datos.ciudad }}>{{ c }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <div style="display:flex; gap:10px; margin-top:6px;">
+            <button class="boton" type="submit">Guardar</button>
+            <a class="boton secundario" href="{{ url_for('clientes.lista') }}">Cancelar</a>
+        </div>
+    </form>
+{% endblock %}

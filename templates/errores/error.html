@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error {{ codigo }} - TechAndes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+    <div class="login-marco" style="text-align:center; padding-bottom: 32px;">
+        <header class="banner">
+            <img src="{{ url_for('static', filename='img/banner.svg') }}" alt="TechAndes S.A.S.">
+        </header>
+        <div style="padding: 32px 24px;">
+            <h1 style="font-size: 3rem; color: var(--azul-oscuro); margin: 0;">{{ codigo }}</h1>
+            <p style="font-size: 1.1rem; margin: 12px 0 24px;">{{ mensaje }}</p>
+            <a class="boton" href="{{ url_for('inicio.inicio') }}">Volver al inicio</a>
+        </div>
+    </div>
+</body>
+</html>

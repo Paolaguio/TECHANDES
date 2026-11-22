@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block titulo %}Pedido #{{ pedido.id_pedido }}{% endblock %}
+{% block contenido %}
+    <h1>Pedido #{{ pedido.id_pedido }}</h1>
+    <p class="subtitulo">
+        Fecha: {{ pedido.fecha_pedido | fecha(true) }} ·
+        Estado actual: <span class="estado {{ pedido.estado }}">{{ pedido.estado }}</span>
+    </p>
+
+    <div class="indicadores">
+        <div class="indicador">
+            <span>Cliente</span>
+            <strong style="font-size:1.1rem;">{{ pedido.cliente }}</strong>
+            <small>{{ pedido.documento }} · {{ pedido.ciudad }}</small>
+        </div>
+        <div class="indicador">
+            <span>Vendedor</span>
+            <strong style="font-size:1.1rem;">{{ pedido.vendedor }}</strong>
+            <small>{{ pedido.cargo }}</small>
+        </div>
+        <div class="indicador">
+            <span>Método de pago</span>
+            <strong style="font-size:1.1rem;">{{ pedido.metodo_pago }}</strong>
+        </div>
+        <div class="indicador">
+            <span>Total del pedido</span>
+            <strong>{{ total | pesos }}</strong>
+        </div>
+    </div>
+
+    <h3>Productos del pedido</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th class="num">Cantidad</th>
+                <th class="num">Precio unitario</th>
+                <th class="num">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.producto }}</td>
+                    <td class="num">{{ item.cantidad }}</td>
+                    <td class="num">{{ item.precio_unitario | pesos }}</td>
+                    <td class="num">{{ item.subtotal | pesos }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="4" class="vacio">Este pedido no tiene líneas de detalle.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if pedido.estado != 'CANCELADO' %}
+        <h3>Cambiar estado del pedido</h3>
+        <form method="post" style="display:flex; gap:10px; align-items:end; margin-bottom:20px;">
+            <label>Nuevo estado
+                <select name="estado">
+                    {% for est in estados %}
+                        <option value="{{ est }}" {{ 'selected' if est == pedido.estado }}>{{ est }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <button class="boton" type="submit">Actualizar estado</button>
+        </form>
+    {% else %}
+        <p class="mensaje aviso">Este pedido está CANCELADO y no puede modificarse.</p>
+    {% endif %}
+
+    <a class="boton secundario" href="{{ url_for('pedidos.lista') }}">Volver a pedidos</a>
+{% endblock %}

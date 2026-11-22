@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 220" width="1100" height="220">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#071d36" />
+      <stop offset="55%" stop-color="#0e3a66" />
+      <stop offset="100%" stop-color="#1673b8" />
+    </linearGradient>
+    <linearGradient id="chip" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#36c2e0" />
+      <stop offset="100%" stop-color="#1b78bd" />
+    </linearGradient>
+  </defs>
+  <rect width="1100" height="220" fill="url(#bg)" />
+  <!-- Cordillera estilizada -->
+  <polygon points="0,220 0,165 140,120 290,175 460,115 640,170 830,110 980,160 1100,125 1100,220" fill="#06172b" opacity="0.55" />
+  <polygon points="0,220 90,155 240,190 410,145 590,195 770,140 940,185 1100,150 1100,220" fill="#04101f" opacity="0.7" />
+  <!-- Líneas de circuito -->
+  <g stroke="#36c2e0" stroke-width="2" fill="none" opacity="0.35">
+    <path d="M 760 45 H 890 L 920 75 H 1040" />
+    <circle cx="1040" cy="75" r="4" fill="#36c2e0" />
+    <path d="M 810 95 H 950 L 975 120 H 1065" />
+    <circle cx="1065" cy="120" r="4" fill="#36c2e0" />
+  </g>
+  <!-- Logo Chip + Montaña -->
+  <g transform="translate(70, 52)">
+    <rect x="16" y="16" width="84" height="84" rx="14" fill="url(#chip)" />
+    <g stroke="#36c2e0" stroke-width="4" stroke-linecap="round">
+      <line x1="36" y1="4" x2="36" y2="14" /><line x1="58" y1="4" x2="58" y2="14" /><line x1="80" y1="4" x2="80" y2="14" />
+      <line x1="36" y1="102" x2="36" y2="112" /><line x1="58" y1="102" x2="58" y2="112" /><line x1="80" y1="102" x2="80" y2="112" />
+      <line x1="4" y1="36" x2="14" y2="36" /><line x1="4" y1="58" x2="14" y2="58" /><line x1="4" y1="80" x2="14" y2="80" />
+      <line x1="102" y1="36" x2="112" y2="36" /><line x1="102" y1="58" x2="112" y2="58" /><line x1="102" y1="80" x2="112" y2="80" />
+    </g>
+    <polygon points="28,84 52,44 68,68 78,54 90,84" fill="#071d36" />
+  </g>
+  <!-- Texto -->
+  <text x="215" y="112" font-family="Segoe UI, Arial, sans-serif" font-size="52" font-weight="800" fill="#ffffff" letter-spacing="3">TECHANDES <tspan font-size="22" font-weight="600" fill="#93c5fd">S.A.S.</tspan></text>
+  <text x="217" y="146" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#bae6fd" letter-spacing="1">Tecnología que llega a toda Colombia</text>
+</svg>
